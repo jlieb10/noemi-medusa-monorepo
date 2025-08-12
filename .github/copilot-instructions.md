@@ -130,7 +130,7 @@ cd noemi-medusa-storefront && yarn lint
 ### Environment Variables Reference
 **Backend (.env):**
 ```
-DATABASE_URL=postgres://postgres:password@localhost/medusa-v2
+DATABASE_URL=postgres://postgres:your_secure_password@localhost/medusa-v2
 STORE_CORS=http://localhost:8000,https://docs.medusajs.com
 ADMIN_CORS=http://localhost:5173,http://localhost:9000,https://docs.medusajs.com
 AUTH_CORS=http://localhost:5173,http://localhost:9000,https://docs.medusajs.com
