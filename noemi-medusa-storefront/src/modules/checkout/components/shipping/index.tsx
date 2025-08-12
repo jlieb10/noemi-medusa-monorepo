@@ -21,7 +21,7 @@ type ShippingProps = {
   availableShippingMethods: HttpTypes.StoreCartShippingOption[] | null
 }
 
-function formatAddress(address: any) {
+function formatAddress(address: HttpTypes.StoreCartAddress | null) {
   if (!address) {
     return ""
   }
@@ -71,11 +71,11 @@ const Shipping: React.FC<ShippingProps> = ({
   const isOpen = searchParams.get("step") === "delivery"
 
   const _shippingMethods = availableShippingMethods?.filter(
-    (sm) => true // TODO: Fix service_zone filtering - sm.service_zone?.fulfillment_set?.type !== "pickup"
+    (sm) => sm.service_zone_id // Filter by service zone id instead
   )
 
   const _pickupMethods = availableShippingMethods?.filter(
-    (sm) => false // TODO: Fix service_zone filtering - sm.service_zone?.fulfillment_set?.type === "pickup"
+    (sm) => !sm.service_zone_id // Filter by absence of service zone id for pickup
   )
 
   const hasPickupOptions = !!_pickupMethods?.length
@@ -198,7 +198,7 @@ const Shipping: React.FC<ShippingProps> = ({
                   <RadioGroup
                     value={showPickupOptions}
                     onChange={(value) => {
-                      const id = _pickupMethods.find(
+                      const id = _pickupMethods?.find(
                         (option) => !option.insufficient_inventory
                       )?.id
 
@@ -383,11 +383,11 @@ const Shipping: React.FC<ShippingProps> = ({
                   Method
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
-                  {cart.shipping_methods?.at(-1)?.name}{" "}
-                  {convertToLocale({
-                    amount: cart.shipping_methods?.at(-1)?.amount || 0,
+                  {cart.shipping_methods && cart.shipping_methods.length > 0 ? cart.shipping_methods.at(-1)?.name : ''}{" "}
+                  {cart.shipping_methods && cart.shipping_methods.length > 0 ? convertToLocale({
+                    amount: cart.shipping_methods.at(-1)?.amount || 0,
                     currency_code: cart?.currency_code,
-                  })}
+                  }) : ''}
                 </Text>
               </div>
             )}

@@ -13,9 +13,9 @@ export default async function ProductActionsWrapper({
   region: HttpTypes.StoreRegion
 }) {
   const product = await listProducts({
-    queryParams: { id: [id] },
+    queryParams: { fields: "*variants.calculated_price,+variants.inventory_quantity,+metadata,+tags" },
     regionId: region.id,
-  }).then(({ response }) => response.products[0])
+  }).then(({ response }) => response.products.find(p => p.id === id))
 
   if (!product) {
     return null

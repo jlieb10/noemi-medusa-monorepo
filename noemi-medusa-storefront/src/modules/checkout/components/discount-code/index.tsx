@@ -128,7 +128,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                               "percentage"
                                 ? `${promotion.application_method.value}%`
                                 : convertToLocale({
-                                    amount: parseFloat(promotion.application_method.value) || 0,
+                                    amount: parseFloat(promotion.application_method.value.toString()) || 0,
                                     currency_code:
                                       promotion.application_method
                                         .currency_code,

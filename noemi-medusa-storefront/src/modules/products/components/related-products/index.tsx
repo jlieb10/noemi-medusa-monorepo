@@ -23,23 +23,34 @@ export default async function RelatedProducts({
   if (region?.id) {
     queryParams.region_id = region.id
   }
-  if (product.collection_id) {
-    queryParams.collection_id = [product.collection_id]
-  }
-  if (product.tags) {
-    queryParams.tag_id = product.tags
-      .map((t) => t.id)
-      .filter(Boolean) as string[]
-  }
-  queryParams.is_giftcard = false
-
+  
   const products = await listProducts({
     queryParams,
     countryCode,
   }).then(({ response }) => {
-    return response.products.filter(
+    // Filter products after fetching
+    let filtered = response.products.filter(
       (responseProduct) => responseProduct.id !== product.id
     )
+    
+    // Apply additional filters based on collection, tags, etc.
+    if (product.collection_id) {
+      filtered = filtered.filter(p => p.collection_id === product.collection_id)
+    }
+    
+    if (product.tags && product.tags.length > 0) {
+      const productTagIds = product.tags.map(t => t.id).filter(Boolean)
+      if (productTagIds.length > 0) {
+        filtered = filtered.filter(p => 
+          p.tags?.some(tag => productTagIds.includes(tag.id))
+        )
+      }
+    }
+    
+    // Filter out gift cards (assuming there's a metadata field or similar)
+    filtered = filtered.filter(p => p.type_id !== 'gift-card')
+    
+    return filtered
   })
 
   if (!products.length) {

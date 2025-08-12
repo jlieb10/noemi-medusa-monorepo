@@ -17,12 +17,17 @@ export default async function ProductRail({
   } = await listProducts({
     regionId: region.id,
     queryParams: {
-      collection_id: collection.id,
       fields: "*variants.calculated_price",
     },
   })
 
-  if (!pricedProducts) {
+  
+  // Filter products by collection
+  const filteredProducts = pricedProducts?.filter(product => 
+    product.collection_id === collection.id
+  ) || []
+
+  if (!filteredProducts || filteredProducts.length === 0) {
     return null
   }
 
@@ -35,8 +40,8 @@ export default async function ProductRail({
         </InteractiveLink>
       </div>
       <ul className="grid grid-cols-2 small:grid-cols-3 gap-x-6 gap-y-24 small:gap-y-36">
-        {pricedProducts &&
-          pricedProducts.map((product) => (
+        {filteredProducts &&
+          filteredProducts.map((product) => (
             <li key={product.id}>
               <ProductPreview product={product} region={region} isFeatured />
             </li>
