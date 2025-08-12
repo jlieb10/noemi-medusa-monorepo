@@ -22,7 +22,6 @@ export async function generateStaticParams() {
 function shouldGenerateStaticParams() {
   // Use a single explicit environment variable for clarity
   return process.env.ENABLE_STATIC_GENERATION === 'true';
-}
 
 export async function generateStaticParams() {
   // Skip static generation during build if backend is not available
