@@ -21,7 +21,6 @@ Always reference these instructions first and fallback to search or bash command
 ### Backend Setup (noemi-medusa-backend)
 - Install dependencies: `yarn install` -- takes 4 minutes. NEVER CANCEL. Set timeout to 8+ minutes.
 - Configure environment:
-  - `cp .env.template .env`
   - Update `.env` with: `DATABASE_URL=postgres://postgres:your_secure_password@localhost/medusa-v2`
     > **Important:** Use the same strong password you set for the PostgreSQL user above.
 - Run database migrations: `npx medusa db:migrate` -- takes 7 seconds. NEVER CANCEL. Set timeout to 2+ minutes.
