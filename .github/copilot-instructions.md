@@ -49,7 +49,8 @@ Always reference these instructions first and fallback to search or bash command
 5. `cd noemi-medusa-backend`
 6. `yarn install` (4 minutes)
 7. `cp .env.template .env`
-8. `echo 'DATABASE_URL=postgres://postgres:password@localhost/medusa-v2' >> .env`
+8. `echo 'DATABASE_URL=postgres://postgres:your_secure_password@localhost/medusa-v2' >> .env`
+   > **Important:** Replace `your_secure_password` with the strong password you set for the PostgreSQL user above.
 9. `npx medusa db:migrate` (7 seconds)
 10. `yarn seed` (3.5 seconds)
 11. `yarn dev &` (starts backend on port 9000)
