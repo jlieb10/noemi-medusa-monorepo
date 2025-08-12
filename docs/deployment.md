@@ -319,7 +319,7 @@ NEXT_PUBLIC_BASE_URL=https://staging.your-domain.com
 **Backend (.env)**:
 ```env
 # Database
-DATABASE_URL=postgresql://postgres:[password]@db.[prod-ref].supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD_HERE@db.YOUR_PROJECT_REF_HERE.supabase.co:5432/postgres
 REDIS_URL=rediss://:[password]@[prod-host]:[port]
 
 # Secrets (CHANGE THESE!)
