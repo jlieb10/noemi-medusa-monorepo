@@ -29,11 +29,9 @@
     "backend:build": "cd noemi-medusa-backend && yarn build",
     "backend:dev": "cd noemi-medusa-backend && yarn dev",
     "build": "npm run build --workspace=noemi-medusa-backend && npm run build --workspace=noemi-medusa-storefront",
-    "clean": "./dev.sh cleanup",
     "clean": "rm -rf noemi-medusa-backend/dist noemi-medusa-backend/.medusa noemi-medusa-storefront/.next",
     "dev:backend": "npm run dev --workspace=noemi-medusa-backend",
     "dev:frontend": "npm run dev --workspace=noemi-medusa-storefront",
-    "dev": "./dev.sh start",
     "dev": "concurrently \"npm run dev --workspace=noemi-medusa-backend\" \"npm run dev --workspace=noemi-medusa-storefront\"",
     "frontend:build": "cd noemi-medusa-storefront && yarn build",
     "frontend:dev": "cd noemi-medusa-storefront && yarn dev",
@@ -47,7 +45,6 @@
     "setup": "./dev.sh setup",
     "start:backend": "npm run start --workspace=noemi-medusa-backend",
     "start:frontend": "npm run start --workspace=noemi-medusa-storefront",
-    "start": "./dev.sh start",
     "start": "concurrently \"npm run start --workspace=noemi-medusa-backend\" \"npm run start --workspace=noemi-medusa-storefront\"",
     "status": "./dev.sh status",
     "stop": "./dev.sh stop",
@@ -60,7 +57,6 @@
     "noemi-medusa-backend",
     "noemi-medusa-storefront"
   ],
-
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
