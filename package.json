@@ -1,0 +1,51 @@
+{
+  "name": "noemi-medusa-monorepo",
+  "version": "1.0.0",
+  "description": "A complete e-commerce development stack with Medusa v2, Next.js, and supporting services",
+  "private": true,
+  "scripts": {
+    "dev": "./dev.sh start",
+    "start": "./dev.sh start",
+    "stop": "./dev.sh stop",
+    "restart": "./dev.sh restart",
+    "logs": "./dev.sh logs",
+    "status": "./dev.sh status",
+    "setup": "./dev.sh setup",
+    "clean": "./dev.sh cleanup",
+    "services": "./dev.sh services",
+    "help": "./dev.sh help",
+    "backend:dev": "cd noemi-medusa-backend && yarn dev",
+    "frontend:dev": "cd noemi-medusa-storefront && yarn dev",
+    "backend:build": "cd noemi-medusa-backend && yarn build",
+    "frontend:build": "cd noemi-medusa-storefront && yarn build",
+    "install:all": "yarn install && cd noemi-medusa-backend && yarn install && cd ../noemi-medusa-storefront && yarn install"
+  },
+  "workspaces": [
+    "noemi-medusa-backend",
+    "noemi-medusa-storefront"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlieb10/noemi-medusa-monorepo.git"
+  },
+  "keywords": [
+    "medusa",
+    "nextjs",
+    "ecommerce",
+    "monorepo",
+    "strapi",
+    "meilisearch",
+    "posthog",
+    "growthbook",
+    "n8n",
+    "docker"
+  ],
+  "author": "Noemi Medusa Team",
+  "license": "MIT"
+}

@@ -1,0 +1,210 @@
+services:
+  # Database for Medusa Backend
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: medusa
+      POSTGRES_DB: medusa-v2
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medusa"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis for Medusa Backend
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MeiliSearch for search functionality
+  meilisearch:
+    image: getmeili/meilisearch:v1.5
+    environment:
+      MEILI_MASTER_KEY: masterkey
+      MEILI_NO_ANALYTICS: "true"
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilisearch_data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostHog for analytics
+  posthog:
+    image: posthog/posthog:latest
+    environment:
+      SECRET_KEY: posthog-secret-key
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: posthog
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: medusa
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # GrowthBook for feature flags and A/B testing
+  growthbook:
+    image: growthbook/growthbook:latest
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/growthbook
+      JWT_SECRET: growthbook-jwt-secret
+      ENCRYPTION_KEY: growthbook-encryption-key
+    ports:
+      - "3100:3100"
+    depends_on:
+      - mongo
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MongoDB for GrowthBook
+  mongo:
+    image: mongo:6
+    environment:
+      MONGO_INITDB_DATABASE: growthbook
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # n8n for workflow automation
+  n8n:
+    image: n8nio/n8n:latest
+    environment:
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: admin
+      N8N_BASIC_AUTH_PASSWORD: admin
+      N8N_HOST: localhost
+      N8N_PORT: 5678
+      N8N_PROTOCOL: http
+      WEBHOOK_URL: http://localhost:5678/
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5678/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Strapi CMS
+  strapi:
+    image: strapi/strapi:latest
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: medusa
+      DATABASE_PASSWORD: medusa
+      JWT_SECRET: strapi-jwt-secret
+      ADMIN_JWT_SECRET: strapi-admin-jwt-secret
+      APP_KEYS: strapi-app-keys
+      API_TOKEN_SALT: strapi-api-token-salt
+      TRANSFER_TOKEN_SALT: strapi-transfer-token-salt
+    ports:
+      - "1337:1337"
+    volumes:
+      - strapi_data:/opt/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1337/admin"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Medusa Backend
+  medusa-backend:
+    build:
+      context: ./noemi-medusa-backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://medusa:medusa@postgres:5432/medusa-v2
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: supersecret
+      COOKIE_SECRET: supersecret
+      STORE_CORS: http://localhost:3000,http://localhost:1337
+      ADMIN_CORS: http://localhost:9000,http://localhost:3000
+      AUTH_CORS: http://localhost:9000,http://localhost:3000
+      MEILISEARCH_HOST: http://meilisearch:7700
+      MEILISEARCH_API_KEY: masterkey
+    ports:
+      - "9000:9000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      meilisearch:
+        condition: service_healthy
+    volumes:
+      - ./noemi-medusa-backend:/app
+      - /app/node_modules
+    command: ["yarn", "dev"]
+
+  # Next.js Frontend/Storefront
+  medusa-storefront:
+    build:
+      context: ./noemi-medusa-storefront
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_MEDUSA_BACKEND_URL: http://localhost:9000
+      NEXT_PUBLIC_BASE_URL: http://localhost:3000
+      POSTHOG_PROJECT_ID: posthog-project-id
+      POSTHOG_API_KEY: posthog-api-key
+      POSTHOG_HOST: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - medusa-backend
+    volumes:
+      - ./noemi-medusa-storefront:/app
+      - /app/node_modules
+      - /app/.next
+    command: ["yarn", "dev"]
+
+volumes:
+  postgres_data:
+  redis_data:
+  meilisearch_data:
+  mongo_data:
+  n8n_data:
+  strapi_data:
+
+networks:
+  default:
+    name: noemi-monorepo-network
