@@ -15,7 +15,7 @@ NC='\033[0m' # No Color
 
 # Check Node.js version
 echo "📋 Checking prerequisites..."
-NODE_VERSION=$(node --version | cut -d'v' -f2)
+NODE_VERSION=$(node --version | sed 's/^v//' | cut -d'.' -f1)
 REQUIRED_NODE="20"
 
 if ! command -v node &> /dev/null; then
