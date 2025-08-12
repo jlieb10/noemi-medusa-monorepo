@@ -462,7 +462,9 @@ export async function GET() {
 ```typescript
 // pages/api/health.ts
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({
+// app/api/health/route.ts
+export async function GET() {
+  return Response.json({
     status: 'healthy',
     timestamp: new Date().toISOString()
   })
