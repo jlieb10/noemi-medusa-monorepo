@@ -24,7 +24,26 @@ if ! command -v node &> /dev/null; then
 fi
 
 # Check if Node version is sufficient
-if [ "$(printf '%s\n' "$REQUIRED_NODE" "$NODE_VERSION" | sort -V | head -n1)" != "$REQUIRED_NODE" ]; then
+version_gte() {
+    # Usage: version_gte <current_version> <required_version>
+    # Returns 0 if current_version >= required_version, 1 otherwise
+    local IFS=.
+    local cur=($1)
+    local req=($2)
+    # Pad missing fields with zeros
+    while [ "${#cur[@]}" -lt 3 ]; do cur+=("0"); done
+    while [ "${#req[@]}" -lt 3 ]; do req+=("0"); done
+    for i in 0 1 2; do
+        if ((10#${cur[i]} > 10#${req[i]})); then
+            return 0
+        elif ((10#${cur[i]} < 10#${req[i]})); then
+            return 1
+        fi
+    done
+    return 0
+}
+
+if ! version_gte "$NODE_VERSION" "$REQUIRED_NODE"; then
     echo -e "${RED}❌ Node.js version $NODE_VERSION is too old. Please install Node.js $REQUIRED_NODE or higher.${NC}"
     exit 1
 fi
