@@ -25,7 +25,6 @@ function shouldGenerateStaticParams() {
 
 export async function generateStaticParams() {
   // Skip static generation during build if backend is not available
-export async function generateStaticParams() {
   if (process.env.ENABLE_STATIC_GENERATION === 'true') {
     try {
       const { collections } = await listCollections({
