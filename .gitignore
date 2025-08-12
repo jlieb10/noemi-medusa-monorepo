@@ -3,6 +3,8 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
+
 
 # Environment files
 .env
@@ -11,6 +13,43 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+<<<<<<< HEAD
+# Build outputs
+dist/
+.next/
+out/
+build/
+
+# Cache directories
+.turbo/
+.cache/
+.parcel-cache/
+.nuxt/
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDEs and editors
+=======
 # Development artifacts
 .DS_Store
 *.log
@@ -25,6 +64,15 @@ yarn-error.log*
 .idea/
 *.swp
 *.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 
 # OS generated files
 Thumbs.db
@@ -32,6 +80,27 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
+
+<<<<<<< HEAD
+# Medusa specific
+.medusa/
+uploads/
+
+# Supabase
+supabase/.branches
+supabase/.temp
+
+# Testing
+playwright-report/
+test-results/
+coverage/
+
+# Deployment
+.vercel
+.netlify
+
+# Local configuration
+.yarnrc.yml.local
 
 # Service-specific ignores
 *.pid

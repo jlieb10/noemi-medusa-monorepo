@@ -1,40 +1,19 @@
 {
   "name": "noemi-medusa-monorepo",
   "version": "1.0.0",
-  "description": "A complete e-commerce development stack with Medusa v2, Next.js, and supporting services",
+  "description": "NOEMI Luxury Supplements E-commerce Platform - Medusa + Next.js + Supabase",
   "private": true,
-  "scripts": {
-    "dev": "./dev.sh start",
-    "start": "./dev.sh start",
-    "stop": "./dev.sh stop",
-    "restart": "./dev.sh restart",
-    "logs": "./dev.sh logs",
-    "status": "./dev.sh status",
-    "setup": "./dev.sh setup",
-    "clean": "./dev.sh cleanup",
-    "services": "./dev.sh services",
-    "help": "./dev.sh help",
-    "backend:dev": "cd noemi-medusa-backend && yarn dev",
-    "frontend:dev": "cd noemi-medusa-storefront && yarn dev",
-    "backend:build": "cd noemi-medusa-backend && yarn build",
-    "frontend:build": "cd noemi-medusa-storefront && yarn build",
-    "install:all": "yarn install && cd noemi-medusa-backend && yarn install && cd ../noemi-medusa-storefront && yarn install"
-  },
-  "workspaces": [
-    "noemi-medusa-backend",
-    "noemi-medusa-storefront"
-  ],
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jlieb10/noemi-medusa-monorepo.git"
-  },
+  "author": "NOEMI Team",
+  "license": "MIT",
   "keywords": [
+    "ecommerce",
+    "medusa",
+    "nextjs",
+    "supabase",
+    "luxury",
+    "supplements",
+    "storefront",
+    "monorepo",
     "medusa",
     "nextjs",
     "ecommerce",
@@ -46,6 +25,51 @@
     "n8n",
     "docker"
   ],
-  "author": "Noemi Medusa Team",
-  "license": "MIT"
+  "scripts": {
+    "backend:build": "cd noemi-medusa-backend && yarn build",
+    "backend:dev": "cd noemi-medusa-backend && yarn dev",
+    "build": "npm run build --workspace=noemi-medusa-backend && npm run build --workspace=noemi-medusa-storefront",
+    "clean": "./dev.sh cleanup",
+    "clean": "rm -rf noemi-medusa-backend/dist noemi-medusa-backend/.medusa noemi-medusa-storefront/.next",
+    "dev:backend": "npm run dev --workspace=noemi-medusa-backend",
+    "dev:frontend": "npm run dev --workspace=noemi-medusa-storefront",
+    "dev": "./dev.sh start",
+    "dev": "concurrently \"npm run dev --workspace=noemi-medusa-backend\" \"npm run dev --workspace=noemi-medusa-storefront\"",
+    "frontend:build": "cd noemi-medusa-storefront && yarn build",
+    "frontend:dev": "cd noemi-medusa-storefront && yarn dev",
+    "help": "./dev.sh help",
+    "install:all": "yarn install && cd noemi-medusa-backend && yarn install && cd ../noemi-medusa-storefront && yarn install",
+    "lint": "npm run lint --workspace=noemi-medusa-storefront",
+    "logs": "./dev.sh logs",
+    "restart": "./dev.sh restart",
+    "seed": "npm run seed --workspace=noemi-medusa-backend",
+    "services": "./dev.sh services",
+    "setup": "./dev.sh setup",
+    "start:backend": "npm run start --workspace=noemi-medusa-backend",
+    "start:frontend": "npm run start --workspace=noemi-medusa-storefront",
+    "start": "./dev.sh start",
+    "start": "concurrently \"npm run start --workspace=noemi-medusa-backend\" \"npm run start --workspace=noemi-medusa-storefront\"",
+    "status": "./dev.sh status",
+    "stop": "./dev.sh stop",
+    "test:e2e": "npm run test:e2e --workspace=noemi-medusa-storefront",
+    "test:integration": "npm run test:integration:http --workspace=noemi-medusa-backend",
+    "test": "npm run test:unit --workspace=noemi-medusa-backend && npm run test --workspace=noemi-medusa-storefront",
+    "typecheck": "npm run typecheck --workspace=noemi-medusa-backend && npm run typecheck --workspace=noemi-medusa-storefront"
+  },
+  "workspaces": [
+    "noemi-medusa-backend",
+    "noemi-medusa-storefront"
+  ],
+
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "npm@10.9.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlieb10/noemi-medusa-monorepo.git"
+  }
 }
