@@ -112,7 +112,7 @@ restart_services() {
 
 # Function to show logs
 show_logs() {
-    if [ -n "$2" ]; then
+    if [ -n "${2:-}" ]; then
         print_status "Showing logs for service: $2"
         docker compose logs -f "$2"
     else
