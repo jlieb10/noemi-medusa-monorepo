@@ -19,7 +19,14 @@ export const PRODUCT_LIMIT = 12
 
 export async function generateStaticParams() {
   // Skip static generation during build if backend is not available
-  if (process.env.NODE_ENV === 'development' && !process.env.SKIP_STATIC_GENERATION) {
+function shouldGenerateStaticParams() {
+  // Use a single explicit environment variable for clarity
+  return process.env.ENABLE_STATIC_GENERATION === 'true';
+}
+
+export async function generateStaticParams() {
+  // Skip static generation during build if backend is not available
+  if (shouldGenerateStaticParams()) {
     try {
       const { collections } = await listCollections({
         fields: "*products",
