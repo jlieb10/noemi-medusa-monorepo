@@ -3,7 +3,16 @@
 # Noemi Medusa Monorepo Development Script
 # This script helps manage the entire development stack
 
-set -e
+# Check if the script has executable permissions
+if [[ ! -x "$0" ]]; then
+    echo -e "\033[0;31m[ERROR]\033[0m Script '$0' does not have executable permissions. Please run 'chmod +x $0' and try again."
+    exit 1
+fi
+
+# Noemi Medusa Monorepo Development Script
+# This script helps manage the entire development stack
+
+set -euo pipefail
 
 # Colors for output
 RED='\033[0;31m'
