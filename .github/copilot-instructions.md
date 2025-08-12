@@ -15,7 +15,14 @@ Always reference these instructions first and fallback to search or bash command
 - Install dependencies: `yarn install` -- takes 4 minutes. NEVER CANCEL. Set timeout to 8+ minutes.
 - Configure environment:
   - `cp .env.template .env`
-  - Update `.env` with: `DATABASE_URL=postgres://postgres:password@localhost/medusa-v2`
+  - `sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'your_secure_password';"`
+    > **Important:** Replace `'your_secure_password'` with a strong, unique password. Do not use `'password'` as your actual password.
+
+### Backend Setup (noemi-medusa-backend)
+- Install dependencies: `yarn install` -- takes 4 minutes. NEVER CANCEL. Set timeout to 8+ minutes.
+- Configure environment:
+  - Update `.env` with: `DATABASE_URL=postgres://postgres:your_secure_password@localhost/medusa-v2`
+    > **Important:** Use the same strong password you set for the PostgreSQL user above.
 - Run database migrations: `npx medusa db:migrate` -- takes 7 seconds. NEVER CANCEL. Set timeout to 2+ minutes.
 - Seed the database: `yarn seed` -- takes 3.5 seconds. NEVER CANCEL. Set timeout to 1+ minutes.
 - Build: `yarn build` -- takes 25 seconds. NEVER CANCEL. Set timeout to 2+ minutes.
@@ -42,7 +49,8 @@ Always reference these instructions first and fallback to search or bash command
 5. `cd noemi-medusa-backend`
 6. `yarn install` (4 minutes)
 7. `cp .env.template .env`
-8. `echo 'DATABASE_URL=postgres://postgres:password@localhost/medusa-v2' >> .env`
+8. `echo 'DATABASE_URL=postgres://postgres:your_secure_password@localhost/medusa-v2' >> .env`
+   > **Important:** Replace `your_secure_password` with the strong password you set for the PostgreSQL user above.
 9. `npx medusa db:migrate` (7 seconds)
 10. `yarn seed` (3.5 seconds)
 11. `yarn dev &` (starts backend on port 9000)
@@ -122,7 +130,7 @@ cd noemi-medusa-storefront && yarn lint
 ### Environment Variables Reference
 **Backend (.env):**
 ```
-DATABASE_URL=postgres://postgres:password@localhost/medusa-v2
+DATABASE_URL=postgres://postgres:your_secure_password@localhost/medusa-v2
 STORE_CORS=http://localhost:8000,https://docs.medusajs.com
 ADMIN_CORS=http://localhost:5173,http://localhost:9000,https://docs.medusajs.com
 AUTH_CORS=http://localhost:5173,http://localhost:9000,https://docs.medusajs.com
@@ -132,6 +140,6 @@ COOKIE_SECRET=supersecret
 
 **Storefront (.env.local):**
 ```
-NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=[get from database]
+NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_XXXXXXXXXXXXXXXXXXXXXXX
 MEDUSA_BACKEND_URL=http://localhost:9000
 ```
