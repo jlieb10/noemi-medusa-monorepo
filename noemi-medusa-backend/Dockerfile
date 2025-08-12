@@ -5,7 +5,8 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json yarn.lock .yarnrc.yml ./
-
+COPY package.json yarn.lock ./
+COPY .yarnrc.yml* ./
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
