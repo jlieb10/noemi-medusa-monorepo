@@ -140,6 +140,6 @@ COOKIE_SECRET=supersecret
 
 **Storefront (.env.local):**
 ```
-NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=[get from database]
+NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_XXXXXXXXXXXXXXXXXXXXXXX
 MEDUSA_BACKEND_URL=http://localhost:9000
 ```
