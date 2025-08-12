@@ -60,7 +60,7 @@ Always ensure these environment variables are set:
 
 **Backend (.env)**:
 ```env
-DATABASE_URL=postgres://...
+DATABASE_URL=postgresql://username:password@host:port/database
 REDIS_URL=redis://localhost:6379
 JWT_SECRET=development-secret
 COOKIE_SECRET=development-secret
