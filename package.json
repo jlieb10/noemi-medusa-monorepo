@@ -36,7 +36,7 @@
     "docker:setup": "./dev.sh setup",
     "docker:cleanup": "./dev.sh cleanup",
     "help": "./dev.sh help",
-    "install:all": "npm install && npm install --workspace=noemi-medusa-backend && npm install --workspace=noemi-medusa-storefront",
+    "install:all": "npm install",
     "lint": "npm run lint --workspace=noemi-medusa-storefront",
     "seed": "npm run seed --workspace=noemi-medusa-backend",
     "start": "concurrently \"npm run start --workspace=noemi-medusa-backend\" \"npm run start --workspace=noemi-medusa-storefront\"",
