@@ -42,7 +42,7 @@
     "start": "concurrently \"npm run start --workspace=noemi-medusa-backend\" \"npm run start --workspace=noemi-medusa-storefront\"",
     "start:backend": "npm run start --workspace=noemi-medusa-backend",
     "start:frontend": "npm run start --workspace=noemi-medusa-storefront",
-    "test": "npm run test:unit --workspace=noemi-medusa-backend && npm run test:storefront --workspace=noemi-medusa-storefront",
+    "test": "npm run test:unit --workspace=noemi-medusa-backend && npm run test --workspace=noemi-medusa-storefront",
     "test:integration": "npm run test:integration:http --workspace=noemi-medusa-backend",
     "typecheck": "npm run typecheck --workspace=noemi-medusa-backend && npm run typecheck --workspace=noemi-medusa-storefront"
   },
