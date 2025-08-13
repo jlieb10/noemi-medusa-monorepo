@@ -44,7 +44,7 @@
     "start:frontend": "npm run start --workspace=noemi-medusa-storefront",
     "status": "./dev.sh status",
     "stop": "./dev.sh stop",
-    "test": "npm run test:unit --workspace=noemi-medusa-backend",
+    "test": "npm run test:unit --workspace=noemi-medusa-backend && npm run test --workspace=noemi-medusa-storefront",
     "test:integration": "npm run test:integration:http --workspace=noemi-medusa-backend",
     "test:integration:modules": "npm run test:integration:modules --workspace=noemi-medusa-backend",
     "test:unit": "npm run test:unit --workspace=noemi-medusa-backend",
