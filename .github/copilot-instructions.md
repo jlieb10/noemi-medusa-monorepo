@@ -142,7 +142,8 @@ sudo -u postgres psql -d medusa-v2 -c "SELECT token FROM public.api_key WHERE ty
 **Backend (.env):**
 ```
 DATABASE_URL=postgres://postgres:password@localhost/medusa-v2
-POSTGRES_URL=postgres://postgres:password@localhost/medusa-v2
+DATABASE_URL=postgres://postgres:<YOUR_PASSWORD>@localhost/medusa-v2
+POSTGRES_URL=postgres://postgres:<YOUR_PASSWORD>@localhost/medusa-v2
 STORE_CORS=http://localhost:3000,http://localhost:1337,https://docs.medusajs.com
 ADMIN_CORS=http://localhost:9000,http://localhost:3000,https://docs.medusajs.com
 AUTH_CORS=http://localhost:9000,http://localhost:3000,https://docs.medusajs.com
