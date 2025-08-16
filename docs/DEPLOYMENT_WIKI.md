@@ -1310,7 +1310,12 @@ aws s3 ls "s3://$S3_BUCKET/database/" --recursive | \
   while read file; do
     if [[ $(date -d "$(echo $file | grep -oE '[0-9]{8}_[0-9]{6}')" +%s) -lt $(date -d "$RETENTION_DAYS days ago" +%s) ]]; then
       aws s3 rm "s3://$S3_BUCKET/$file"
-    fi
+# Clean old backups from S3 using LastModified metadata (requires jq)
+CUTOFF_DATE=$(date -d "$RETENTION_DAYS days ago" --iso-8601=seconds)
+aws s3api list-objects-v2 --bucket "$S3_BUCKET" --prefix "database/" --query 'Contents[?LastModified<=`'"$CUTOFF_DATE"'`]' --output json | \
+  jq -r '.[].Key' | \
+  while read file; do
+    aws s3 rm "s3://$S3_BUCKET/$file"
   done
 
 echo "Backup completed: $BACKUP_FILE"
