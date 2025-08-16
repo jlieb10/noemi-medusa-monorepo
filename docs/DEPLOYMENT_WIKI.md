@@ -628,7 +628,11 @@ doctl compute load-balancer create \
   --size lb-small
 
 # Add droplets to load balancer
-doctl compute load-balancer add-droplets noemi-lb --droplet-ids 123456,789012
+# First, get your droplet IDs (replace the filter as needed):
+doctl compute droplet list --format ID,Name
+
+# Then, add your actual droplet IDs (replace <droplet-id-1>,<droplet-id-2> with your real IDs):
+doctl compute load-balancer add-droplets noemi-lb --droplet-ids <droplet-id-1>,<droplet-id-2>
 ```
 
 ## Advanced Netlify + Railway Deployment
