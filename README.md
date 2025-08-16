@@ -183,7 +183,12 @@ NEXT_PUBLIC_DEFAULT_REGION=us
 cd noemi-medusa-backend
 NODE_ENV=development yarn dev &
 
-# Then build frontend:
+# First, open a new terminal window or tab and start the backend:
+cd noemi-medusa-backend
+NODE_ENV=development yarn dev
+# (Leave this running. You can stop it anytime with Ctrl+C.)
+
+# Then, in your original terminal, build the frontend:
 cd noemi-medusa-storefront
 yarn build
 ```
